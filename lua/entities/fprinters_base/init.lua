@@ -49,7 +49,7 @@ function ENT:CheckTemperature()
 		self:SetTemperature(self:GetTemperature() - math.random(1,2 + (2 * (self:GetCoolerUpgrade() - 1))))
 		return false
 	else
-		self:SetTemperature(self:GetTemperature() + math.random(1,2 + (2 * (self:GetSpeedUpgrade() - 1))))
+		self:SetTemperature(self:GetTemperature() + math.random(1,5))
 		return true
 	end
 end
