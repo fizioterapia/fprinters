@@ -1,0 +1,9 @@
+{
+	"title": "FPrinters",
+	"type":	"ServerContent",
+	"tags":	[ "roleplay", "realism" ],
+	"ignore": [
+		"*.git*",
+		"README.md"
+	]
+}
