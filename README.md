@@ -12,8 +12,7 @@ Add printers: use `fprinters_admin` command in console.
 - change fan icon
 
 ## Contact
-- Steam - [fizi](https://steamcommunity.com/id/fizi_cheetah/)
-- Discord - fizi#3958
+- Steam
 - GitHub issues
 
 ## Resources
