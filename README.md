@@ -5,11 +5,11 @@ Another DarkRP printers made by me purely for fun and education.
 Just drag and drop the folder into `addons/` directory.
 
 ## Configuration
-Modify file called: `lua/fprinters/config/sh_config.lua`
+Modify file called: `lua/fprinters/config/sh_config.lua`  
+Add printers: use `fprinters_admin` command in console.
 
 ## Todo
 - change fan icon
-- introduce admin panel for printers
 
 ## Contact
 - Steam - [fizi](https://steamcommunity.com/id/fizi_cheetah/)

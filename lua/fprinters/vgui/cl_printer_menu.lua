@@ -85,7 +85,7 @@ function FPrinters:CreatePrinterMenu(printer)
 
     local moneyHeader = vgui.Create("DLabel", moneyPanel)
     moneyHeader:Dock(TOP)
-    moneyHeader:SetText("Money")
+    moneyHeader:SetText(FPrinters.Phrases.Get('money'))
     moneyHeader:SetTextColor(Color(255,255,255))
     moneyHeader:SetFont("FPrinters_Printer_24_Bold")
     moneyHeader:SizeToContents()
@@ -103,48 +103,40 @@ function FPrinters:CreatePrinterMenu(printer)
     local printerBalance = vgui.Create("DLabel", moneyPanel)
     printerBalance:Dock(TOP)
     printerBalance:SetFont("FPrinters_Printer_18")
-    printerBalance:SetText("Money printed\n$" .. printer:GetMoney())
-    printerBalance:SizeToContents()
     printerBalance:DockMargin(0,0,0,8)
 
     function printerBalance:Think()
-        printerBalance:SetText("Money printed\n$" .. printer:GetMoney())
+        printerBalance:SetText(string.format(FPrinters.Phrases.Get('printed'), printer:GetMoney()))
         printerBalance:SizeToContents()
     end
 
     local printerEarned = vgui.Create("DLabel", moneyPanel)
     printerEarned:Dock(TOP)
     printerEarned:SetFont("FPrinters_Printer_18")
-    printerEarned:SetText("Total earned \n$" .. printer:GetTotalPrinted())
-    printerEarned:SizeToContents()
     printerEarned:DockMargin(0,0,0,8)
 
     function printerEarned:Think()
-        printerEarned:SetText("Total earned \n$" .. printer:GetTotalPrinted())
+        printerEarned:SetText(string.format(FPrinters.Phrases.Get('totalprinted'), printer:GetTotalPrinted()))
         printerEarned:SizeToContents()
     end
 
     local printerCapacity = vgui.Create("DLabel", moneyPanel)
     printerCapacity:Dock(TOP)
     printerCapacity:SetFont("FPrinters_Printer_18")
-    printerCapacity:SetText("Total capacity\n$" .. printer:GetCapacity())
-    printerCapacity:SizeToContents()
     printerCapacity:DockMargin(0,0,0,8)
 
     function printerCapacity:Think()
-        printerCapacity:SetText("Total capacity\n$" .. printer:GetCapacity())
+        printerCapacity:SetText(string.format(FPrinters.Phrases.Get('totalcapacity'), printer:GetCapacity()))
         printerCapacity:SizeToContents()
     end
 
     local printerRate = vgui.Create("DLabel", moneyPanel)
     printerRate:Dock(TOP)
     printerRate:SetFont("FPrinters_Printer_18")
-    printerRate:SetText("Rate\n$500/min")
-    printerRate:SizeToContents()
     printerRate:DockMargin(0,0,0,8)
 
     function printerRate:Think()
-        printerRate:SetText("Rate\n$" .. (60 / printer:GetSpeed()) * printer:GetPrintAmount() .. "/min")
+        printerRate:SetText(string.format(FPrinters.Phrases.Get('rate'), (60 / printer:GetSpeed()) * printer:GetPrintAmount()))
         printerRate:SizeToContents()
     end
 
@@ -163,11 +155,11 @@ function FPrinters:CreatePrinterMenu(printer)
         end
         surface.DrawRect(0,0,w,h)
         surface.SetFont("FPrinters_Printer_18_Bold")
-        local tw, th = surface.GetTextSize("Collect ($" .. printer:GetMoney() ..")")
+        local tw, th = surface.GetTextSize(string.format(FPrinters.Phrases.Get('collect'), printer:GetMoney()))
 
         surface.SetTextPos(w / 2 - tw / 2, h / 2 - th / 2)
 
-        surface.DrawText("Collect ($" .. printer:GetMoney() ..")")
+        surface.DrawText(string.format(FPrinters.Phrases.Get('collect'), printer:GetMoney()))
     end
 
     function printerCollect:DoClick()
@@ -188,7 +180,7 @@ function FPrinters:CreatePrinterMenu(printer)
 
     local upgradesHeader = vgui.Create("DLabel", upgradesPanel)
     upgradesHeader:Dock(TOP)
-    upgradesHeader:SetText("Upgrades")
+    upgradesHeader:SetText(FPrinters.Phrases.Get('upgrades'))
     upgradesHeader:SetTextColor(Color(255,255,255))
     upgradesHeader:SetFont("FPrinters_Printer_24_Bold")
     upgradesHeader:SizeToContents()
@@ -233,15 +225,14 @@ function FPrinters:CreatePrinterMenu(printer)
     upgradePurchase:SetTall(48)
     upgradePurchase:SetWide(96)
     local upgradeMoney = (printer:GetSpeedUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
-    upgradePurchase:SetText("+ ($" .. upgradeMoney .. ")")
     upgradePurchase:SetFont("FPrinters_Printer_18_Bold")
 
     function upgradePurchase:Paint(w, h)
         local upgradeMoney = (printer:GetSpeedUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
-        self:SetText("+ ($" .. upgradeMoney .. ")")
+        self:SetText(string.format(FPrinters.Phrases.Get("upgrade"), upgradeMoney))
 
         if (printer:GetSpeedUpgrade() >= FPrinters.Config.Upgrades.MaxTier) then
-            self:SetText("MAX")
+            self:SetText(FPrinters.Phrases.Get("max"))
         end
 
         if self:IsHovered() then
@@ -271,18 +262,16 @@ function FPrinters:CreatePrinterMenu(printer)
     local upgradeHeader = vgui.Create("DLabel", upgradeDetails)
     upgradeHeader:Dock(TOP)
     upgradeHeader:SetFont("FPrinters_Printer_24_Bold")
-    upgradeHeader:SetText("Speed (" .. printer:GetSpeedUpgrade() .. "/10)")
-    upgradeHeader:SizeToContents()
 
     function upgradeHeader:Think()
-        upgradeHeader:SetText("Speed (" .. printer:GetSpeedUpgrade() .. "/10)")
+        upgradeHeader:SetText(string.format(FPrinters.Phrases.Get('speed'), printer:GetSpeedUpgrade(), FPrinters.Config.Upgrades.MaxTier))
         upgradeHeader:SizeToContents()
     end
 
     local upgradeContent = vgui.Create("DLabel", upgradeDetails)
     upgradeContent:Dock(TOP)
     upgradeContent:SetFont("FPrinters_Printer_18")
-    upgradeContent:SetText("You print more often, but you also heat up faster.")
+    upgradeContent:SetText(FPrinters.Phrases.Get('speedDesc'))
     upgradeContent:SizeToContents()
 
     local upgrade = vgui.Create("DPanel", upgradesPanel)
@@ -315,15 +304,15 @@ function FPrinters:CreatePrinterMenu(printer)
     upgradePurchase:SetTall(48)
     upgradePurchase:SetWide(96)
     local upgradeMoney = (printer:GetCapacityUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
-    upgradePurchase:SetText("+ ($" .. upgradeMoney .. ")")
+    upgradePurchase:SetText(string.format(FPrinters.Phrases.Get("upgrade"), upgradeMoney))
     upgradePurchase:SetFont("FPrinters_Printer_18_Bold")
 
     function upgradePurchase:Paint(w, h)
         local upgradeMoney = (printer:GetCapacityUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
-        self:SetText("+ ($" .. upgradeMoney .. ")")
+        self:SetText(string.format(FPrinters.Phrases.Get("upgrade"), upgradeMoney))
 
         if (printer:GetCapacityUpgrade() >= FPrinters.Config.Upgrades.MaxTier) then
-            self:SetText("MAX")
+            self:SetText(FPrinters.Phrases.Get("max"))
         end
 
         if self:IsHovered() then
@@ -353,18 +342,16 @@ function FPrinters:CreatePrinterMenu(printer)
     local upgradeHeader = vgui.Create("DLabel", upgradeDetails)
     upgradeHeader:Dock(TOP)
     upgradeHeader:SetFont("FPrinters_Printer_24_Bold")
-    upgradeHeader:SetText("Capacity (" .. printer:GetCapacityUpgrade() .. "/10)")
-    upgradeHeader:SizeToContents()
 
     function upgradeHeader:Think()
-        upgradeHeader:SetText("Capacity (" .. printer:GetCapacityUpgrade() .. "/10)")
+        upgradeHeader:SetText(string.format(FPrinters.Phrases.Get('capacity'), printer:GetCapacityUpgrade(), FPrinters.Config.Upgrades.MaxTier))
         upgradeHeader:SizeToContents()
     end
 
     local upgradeContent = vgui.Create("DLabel", upgradeDetails)
     upgradeContent:Dock(TOP)
     upgradeContent:SetFont("FPrinters_Printer_18")
-    upgradeContent:SetText("Increase capacity of your printer.")
+    upgradeContent:SetText(FPrinters.Phrases.Get('capacityDesc'))
     upgradeContent:SizeToContents()
 
     local upgrade = vgui.Create("DPanel", upgradesPanel)
@@ -397,15 +384,15 @@ function FPrinters:CreatePrinterMenu(printer)
     upgradePurchase:SetTall(48)
     upgradePurchase:SetWide(96)
     local upgradeMoney = (printer:GetCoolerUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
-    upgradePurchase:SetText("+ ($" .. upgradeMoney .. ")")
+    upgradePurchase:SetText(string.format(FPrinters.Phrases.Get("upgrade"), upgradeMoney))
     upgradePurchase:SetFont("FPrinters_Printer_18_Bold")
 
     function upgradePurchase:Paint(w, h)
         local upgradeMoney = (printer:GetCoolerUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
-        self:SetText("+ ($" .. upgradeMoney .. ")")
+        self:SetText(string.format(FPrinters.Phrases.Get("upgrade"), upgradeMoney))
 
         if (printer:GetCoolerUpgrade() >= FPrinters.Config.Upgrades.MaxTier) then
-            self:SetText("MAX")
+            self:SetText(FPrinters.Phrases.Get("max"))
         end
 
         if self:IsHovered() then
@@ -439,14 +426,14 @@ function FPrinters:CreatePrinterMenu(printer)
     upgradeHeader:SizeToContents()
 
     function upgradeHeader:Think()
-        upgradeHeader:SetText("Cooler (" .. printer:GetCoolerUpgrade() .. "/10)")
+        upgradeHeader:SetText(string.format(FPrinters.Phrases.Get('cooler'), printer:GetCoolerUpgrade(), FPrinters.Config.Upgrades.MaxTier))
         upgradeHeader:SizeToContents()
     end
 
     local upgradeContent = vgui.Create("DLabel", upgradeDetails)
     upgradeContent:Dock(TOP)
     upgradeContent:SetFont("FPrinters_Printer_18")
-    upgradeContent:SetText("Increases temperature drop of your cooler.")
+    upgradeContent:SetText(FPrinters.Phrases.Get('coolerDesc'))
     upgradeContent:SizeToContents()
 
     local upgrade = vgui.Create("DPanel", upgradesPanel)
@@ -479,15 +466,15 @@ function FPrinters:CreatePrinterMenu(printer)
     upgradePurchase:SetTall(48)
     upgradePurchase:SetWide(96)
     local upgradeMoney = (printer:GetHealthUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
-    upgradePurchase:SetText("+ ($" .. upgradeMoney .. ")")
+    upgradePurchase:SetText(string.format(FPrinters.Phrases.Get("upgrade"), upgradeMoney))
     upgradePurchase:SetFont("FPrinters_Printer_18_Bold")
 
     function upgradePurchase:Paint(w, h)
         local upgradeMoney = (printer:GetHealthUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
-        self:SetText("+ ($" .. upgradeMoney .. ")")
+        self:SetText(string.format(FPrinters.Phrases.Get("upgrade"), upgradeMoney))
 
         if (printer:GetHealthUpgrade() >= FPrinters.Config.Upgrades.MaxTier) then
-            self:SetText("MAX")
+            self:SetText(FPrinters.Phrases.Get("max"))
         end
 
         if self:IsHovered() then
@@ -517,18 +504,16 @@ function FPrinters:CreatePrinterMenu(printer)
     local upgradeHeader = vgui.Create("DLabel", upgradeDetails)
     upgradeHeader:Dock(TOP)
     upgradeHeader:SetFont("FPrinters_Printer_24_Bold")
-    upgradeHeader:SetText("Health (" .. printer:GetHealthUpgrade() .. "/10)")
-    upgradeHeader:SizeToContents()
 
     function upgradeHeader:Think()
-        upgradeHeader:SetText("Health (" .. printer:GetHealthUpgrade() .. "/10)")
+        upgradeHeader:SetText(string.format(FPrinters.Phrases.Get('health'), printer:GetHealthUpgrade(), FPrinters.Config.Upgrades.MaxTier))
         upgradeHeader:SizeToContents()
     end
 
     local upgradeContent = vgui.Create("DLabel", upgradeDetails)
     upgradeContent:Dock(TOP)
     upgradeContent:SetFont("FPrinters_Printer_18")
-    upgradeContent:SetText("Increases health of your printer.")
+    upgradeContent:SetText(FPrinters.Phrases.Get('healthDesc'))
     upgradeContent:SizeToContents()
 end
 

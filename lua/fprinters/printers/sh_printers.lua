@@ -1,6 +1,8 @@
 FPrinters = FPrinters or {}
 
-hook.Add("InitPostEntity", "FPrinters::LoadPrinters", function()
+hook.Add("FPrinters_FinishedLoadingConfig", "FPrinters::LoadPrinters", function()
+    print("Creating printers...")
+    
     DarkRP.createCategory{
         name = "FPrinters",
         categorises = "entities",
@@ -9,19 +11,21 @@ hook.Add("InitPostEntity", "FPrinters::LoadPrinters", function()
         canSee = function(ply) return true end,
     }
 
-    for name,values in pairs(FPrinters.Config.Printers) do
+    for id,values in pairs(FPrinters.Config.Printers) do
         local printer = scripted_ents.Get( "fprinters_base" )
-        printer.PrintName = name
+        printer.PrintName = values.Name
         printer.Defaults = values
 
-        scripted_ents.Register( printer, values.Class )
+        local entName = "fprinters_" .. id
 
-        DarkRP.createEntity(name, {
-            ent = values.Class,
+        scripted_ents.Register( printer, entName )
+
+        DarkRP.createEntity(values.Name, {
+            ent = entName,
             model = "models/props_c17/consolebox01a.mdl",
-            cmd = values.Class,
+            cmd = entName,
             price = values.Price,
-            max = values.MaxPrinters,
+            max = FPrinters.Config.MaxPrinters,
             category = "FPrinters", 
         })
     end

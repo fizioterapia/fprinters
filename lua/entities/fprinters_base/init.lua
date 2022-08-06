@@ -108,7 +108,7 @@ function ENT:Collect(ply)
 
 	ply:addMoney(self:GetMoney())
 
-	DarkRP.notify(ply, 0, 10, "You have succesfully collected $" .. self:GetMoney() .. ".")
+	DarkRP.notify(ply, 0, 10, string.format(FPrinters.Phrases.Get('collectmoney'), self:GetMoney()))
 	self:SetMoney(0)
 end
 
@@ -116,11 +116,11 @@ function ENT:UpgradeSpeed(ply)
 	local upgradeMoney = (self:GetSpeedUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
 
 	if !ply:canAfford(upgradeMoney) then 
-		DarkRP.notify(ply, 1, 10, "You don't have enough money to purchase this upgrade.")
+		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('cantafford'))
 		return false 
 	end
 	if self:GetSpeedUpgrade() >= 10 then 
-		DarkRP.notify(ply, 1, 10, "You have already the biggest tier of this upgrade.")
+		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('maxupgrade'))
 		return false 
 	end
 
@@ -128,18 +128,18 @@ function ENT:UpgradeSpeed(ply)
 	self:SetSpeed(self.Defaults.Speed - (self:GetSpeedUpgrade() * FPrinters.Config.Upgrades.SpeedIncrease))
 	ply:addMoney(-upgradeMoney)
 
-	DarkRP.notify(ply, 0, 10, "You have succesfully purchased this upgrade.")
+	DarkRP.notify(ply, 0, 10, FPrinters.Phrases.Get('upgraded'))
 end
 
 function ENT:UpgradeCapacity(ply)
 	local upgradeMoney = (self:GetCapacityUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
 
 	if !ply:canAfford(upgradeMoney) then 
-		DarkRP.notify(ply, 1, 10, "You don't have enough money to purchase this upgrade.")
+		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('cantafford'))
 		return false 
 	end
 	if self:GetCapacityUpgrade() >= 10 then 
-		DarkRP.notify(ply, 1, 10, "You have already the biggest tier of this upgrade.")
+		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('maxupgrade'))
 		return false 
 	end
 
@@ -147,36 +147,36 @@ function ENT:UpgradeCapacity(ply)
 	self:SetCapacity(self.Defaults.Capacity * self:GetCapacityUpgrade())
 	ply:addMoney(-upgradeMoney)
 
-	DarkRP.notify(ply, 0, 10, "You have succesfully purchased this upgrade.")
+	DarkRP.notify(ply, 0, 10, FPrinters.Phrases.Get('upgraded'))
 end
 
 function ENT:UpgradeCooler(ply)
 	local upgradeMoney = (self:GetCoolerUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
 
 	if !ply:canAfford(upgradeMoney) then 
-		DarkRP.notify(ply, 1, 10, "You don't have enough money to purchase this upgrade.")
+		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('cantafford'))
 		return false 
 	end
 	if self:GetCoolerUpgrade() >= 10 then 
-		DarkRP.notify(ply, 1, 10, "You have already the biggest tier of this upgrade.")
+		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('maxupgrade'))
 		return false 
 	end
 
 	self:SetCoolerUpgrade(self:GetCoolerUpgrade() + 1)
 	ply:addMoney(-upgradeMoney)
 
-	DarkRP.notify(ply, 0, 10, "You have succesfully purchased this upgrade.")
+	DarkRP.notify(ply, 0, 10, FPrinters.Phrases.Get('upgraded'))
 end
 
 function ENT:UpgradeHealth(ply)
 	local upgradeMoney = (self:GetHealthUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
 
 	if !ply:canAfford(upgradeMoney) then 
-		DarkRP.notify(ply, 1, 10, "You don't have enough money to purchase this upgrade.")
+		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('cantafford'))
 		return false 
 	end
 	if self:GetHealthUpgrade() >= 10 then 
-		DarkRP.notify(ply, 1, 10, "You have already the biggest tier of this upgrade.")
+		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('maxupgrade'))
 		return false 
 	end
 
@@ -184,5 +184,5 @@ function ENT:UpgradeHealth(ply)
 	self:SetHP(self.Defaults.HP * self:GetHealthUpgrade())
 	ply:addMoney(-upgradeMoney)
 
-	DarkRP.notify(ply, 0, 10, "You have succesfully purchased this upgrade.")
+	DarkRP.notify(ply, 0, 10, FPrinters.Phrases.Get('upgraded'))
 end
