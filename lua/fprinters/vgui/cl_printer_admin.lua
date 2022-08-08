@@ -49,7 +49,7 @@ function FPrinters:CreateAdminMenu()
 
     local navigationTitle = vgui.Create("DLabel", navigationBar)
     navigationTitle:Dock(FILL)
-    navigationTitle:SetText("FPrinters v1.2")
+    navigationTitle:SetText("FPrinters v1.2.1")
     navigationTitle:SizeToContents()
     navigationTitle:SetTextColor(Color(255,255,255))
     navigationTitle:SetFont("FPrinters_Printer_18_Bold")
