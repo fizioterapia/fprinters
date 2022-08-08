@@ -31,3 +31,11 @@ surface.CreateFont("FPrinters_Printer_18", {
     extended = true,
     antialias = true
 })
+
+surface.CreateFont("FPrinters_Printer_14_Bold", {
+    font = "Inter",
+    weight = 700,
+    size = 14,
+    extended = true,
+    antialias = true
+})

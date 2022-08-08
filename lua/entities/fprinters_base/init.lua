@@ -4,10 +4,7 @@ AddCSLuaFile( "shared.lua" )
 include( "shared.lua" )
 
 function ENT:Setup()
-	self:SetCapacity(self.Defaults.Capacity)
-	self:SetHP(self.Defaults.HP)
 	self:SetPrintAmount(self.Defaults.PrintAmount)
-	self:SetSpeed(self.Defaults.Speed)
 
 	self:SetMoney(0)
 	self:SetTemperature(0)
@@ -16,6 +13,10 @@ function ENT:Setup()
 	self:SetCapacityUpgrade(FPrinters.Config.Upgrades.StartTier)
 	self:SetCoolerUpgrade(FPrinters.Config.Upgrades.StartTier)
 	self:SetHealthUpgrade(FPrinters.Config.Upgrades.StartTier)
+
+	self:SetCapacity(self.Defaults.Capacity * self:GetCapacityUpgrade())
+	self:SetHP(self.Defaults.HP * self:GetHealthUpgrade())
+	self:SetCSpeed(self.Defaults.Speed - (self:GetSpeedUpgrade() * FPrinters.Config.Upgrades.SpeedIncrease))
 end
 
 function ENT:Initialize()
@@ -47,9 +48,15 @@ end
 function ENT:CheckTemperature()
 	if self:GetTemperature() > 80 then
 		self:SetTemperature(self:GetTemperature() - math.random(1,2 + (2 * (self:GetCoolerUpgrade() - 1))))
+		if self:GetTemperature() <= 0 then
+			self:SetTemperature(0)
+		end
 		return false
 	else
-		self:SetTemperature(self:GetTemperature() + math.random(1,5))
+		self:SetTemperature(self:GetTemperature() + math.random(1,2 + (2 * (self:GetSpeedUpgrade() - 1 ))))
+		if self:GetTemperature() > 1000 then
+			self:SetTemperature(1000)
+		end
 		return true
 	end
 end
@@ -64,7 +71,7 @@ function ENT:PrintMoney()
 		self:SetMoney(money)
 	end
 
-	timer.Simple(self:GetSpeed(), function()
+	timer.Simple(math.max(0.1, self:GetSpeed()), function()
 		if IsValid(self) then
 			self:PrintMoney()
 		end
@@ -112,6 +119,14 @@ function ENT:Collect(ply)
 	self:SetMoney(0)
 end
 
+function ENT:SetCSpeed(speed)
+	if (speed <= 0) then
+		speed = 0.1
+	end
+
+	self:SetSpeed(speed)
+end
+
 function ENT:UpgradeSpeed(ply)
 	local upgradeMoney = (self:GetSpeedUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
 
@@ -119,13 +134,13 @@ function ENT:UpgradeSpeed(ply)
 		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('cantafford'))
 		return false 
 	end
-	if self:GetSpeedUpgrade() >= 10 then 
+	if self:GetSpeedUpgrade() >= FPrinters.Config.Upgrades.MaxTier then 
 		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('maxupgrade'))
 		return false 
 	end
 
 	self:SetSpeedUpgrade(self:GetSpeedUpgrade() + 1)
-	self:SetSpeed(self.Defaults.Speed - (self:GetSpeedUpgrade() * FPrinters.Config.Upgrades.SpeedIncrease))
+	self:SetCSpeed(self.Defaults.Speed - (self:GetSpeedUpgrade() * FPrinters.Config.Upgrades.SpeedIncrease))
 	ply:addMoney(-upgradeMoney)
 
 	DarkRP.notify(ply, 0, 10, FPrinters.Phrases.Get('upgraded'))
@@ -138,7 +153,7 @@ function ENT:UpgradeCapacity(ply)
 		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('cantafford'))
 		return false 
 	end
-	if self:GetCapacityUpgrade() >= 10 then 
+	if self:GetCapacityUpgrade() >= FPrinters.Config.Upgrades.MaxTier then 
 		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('maxupgrade'))
 		return false 
 	end
@@ -157,7 +172,7 @@ function ENT:UpgradeCooler(ply)
 		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('cantafford'))
 		return false 
 	end
-	if self:GetCoolerUpgrade() >= 10 then 
+	if self:GetCoolerUpgrade() >= FPrinters.Config.Upgrades.MaxTier then 
 		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('maxupgrade'))
 		return false 
 	end
@@ -175,7 +190,7 @@ function ENT:UpgradeHealth(ply)
 		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('cantafford'))
 		return false 
 	end
-	if self:GetHealthUpgrade() >= 10 then 
+	if self:GetHealthUpgrade() >= FPrinters.Config.Upgrades.MaxTier then 
 		DarkRP.notify(ply, 1, 10, FPrinters.Phrases.Get('maxupgrade'))
 		return false 
 	end

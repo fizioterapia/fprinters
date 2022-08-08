@@ -26,6 +26,11 @@ FPrinters.Config = {
 
 function FPrinters.SaveConfig()
     file.Write("fprinters/config.txt", util.TableToJSON(FPrinters.Config))
+
+    net.Start("FPrinters_SyncConfig")
+        net.WriteBool(false)
+        net.WriteString(util.TableToJSON(FPrinters.Config))
+    net.Broadcast()
 end
 
 hook.Add("InitPostEntity", "FPrinters::LoadConfig", function()
@@ -34,12 +39,15 @@ hook.Add("InitPostEntity", "FPrinters::LoadConfig", function()
         net.SendToServer()
 
         net.Receive("FPrinters_SyncConfig", function()
+            local callHook = net.ReadBool()
             local data = net.ReadString()
             data = util.JSONToTable(data)
 
             FPrinters.Config = data
 
-            hook.Call("FPrinters_FinishedLoadingConfig")
+            if callHook then
+                hook.Call("FPrinters_FinishedLoadingConfig")
+            end
         end)
     else
         util.AddNetworkString("FPrinters_SyncConfig")
@@ -49,6 +57,7 @@ hook.Add("InitPostEntity", "FPrinters::LoadConfig", function()
             print("[FPrinters] Sending config to: " .. ply:Name())
 
             net.Start("FPrinters_SyncConfig")
+                net.WriteBool(true)
                 net.WriteString(util.TableToJSON(FPrinters.Config))
             net.Send(ply)
         end)

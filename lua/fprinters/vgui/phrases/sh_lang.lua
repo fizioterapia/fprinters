@@ -47,7 +47,22 @@ FPrinters.Phrases.Data = {
         colorMsg = "Printer Color",
         added = "You have added a new printer. It will be available after restart.",
         updated = "You have updated a printer.",
-        removed = "You have removed a printer."
+        removed = "You have removed a printer.",
+        config = "Config",
+        language = "Language",
+        upgrades = "Upgrades",
+        starttier = "Starting Tier of Upgrade",
+        starttierDesc = "If you configure Max Tier to 10, you can put here a signed integer from 0 to 10.",
+        maxtier = "Max Tier of Upgrade",
+        maxtierDesc = "Signed integer, maximum tier of upgrade.",
+        upgradecost = "Cost of Upgrade",
+        upgradecostDesc = "Cost of upgrade in DarkRP money",
+        upgradecostmultiplier = "Cost Increase per Upgrade",
+        upgradecostmultiplierDesc = "If you put 2 here, it means next upgrade will be (upgradeMoney * multiplier * tier)",
+        speedmodifier = "Speed Modifier Decrease",
+        speedmodifierDesc = "If you put 0.25 here, every upgrade will decrease print time for 0.25 seconds.",
+        saveconfig = "Save Config",
+        savedConfig = "You have succesfully saved config."
     }
 }
 FPrinters.Phrases.Fallback = "en"
@@ -62,7 +77,7 @@ function FPrinters.Phrases.Get(phrase)
     if !FPrinters.Phrases.Data[FPrinters.Config.Phrases.Language][phrase] and !FPrinters.Phrases.Data[FPrinters.Phrases.Fallback][phrase] then
         return FPrinters.Phrases.ErrorMessage
     elseif !FPrinters.Phrases.Data[FPrinters.Config.Phrases.Language][phrase] then
-        return !FPrinters.Phrases.Data[FPrinters.Phrases.Fallback][phrase]
+        return FPrinters.Phrases.Data[FPrinters.Phrases.Fallback][phrase]
     end
 
     return FPrinters.Phrases.Data[FPrinters.Config.Phrases.Language][phrase]

@@ -2,6 +2,8 @@ FPrinters = FPrinters or {}
 
 util.AddNetworkString("FPrinter_OpenPrinter")
 
+util.AddNetworkString("FPrinter_UpdateConfig")
+
 util.AddNetworkString("FPrinter_AddPrinter")
 util.AddNetworkString("FPrinter_UpdatePrinter")
 util.AddNetworkString("FPrinter_RemovePrinter")
@@ -11,6 +13,19 @@ util.AddNetworkString("FPrinter_UpgradeSpeed")
 util.AddNetworkString("FPrinter_UpgradeCapacity")
 util.AddNetworkString("FPrinter_UpgradeCooler")
 util.AddNetworkString("FPrinter_UpgradeHealth")
+
+net.Receive("FPrinter_UpdateConfig", function(len, ply)
+    if !IsValid(ply) or !ply:IsSuperAdmin() then return end
+    local cfg = net.ReadTable()
+
+    if !cfg then return end
+
+    FPrinters.Config = cfg
+
+    FPrinters.SaveConfig()
+
+    DarkRP.notify(ply, 0, 10, FPrinters.Phrases.Get('savedConfig'))
+end)
 
 net.Receive("FPrinter_AddPrinter", function(len, ply)
     if !IsValid(ply) or !ply:IsSuperAdmin() then return end

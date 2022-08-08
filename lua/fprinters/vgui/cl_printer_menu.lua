@@ -8,7 +8,7 @@ local healthUpgrade = Material("fprinters/armor.png", "noclamp mips smooth")
 
 function FPrinters:CreatePrinterMenu(printer)
     local printerMenu = vgui.Create("DFrame")
-    printerMenu:SetSize(1024, 576)
+    printerMenu:SetSize(1024, 700)
     printerMenu:Center()
     printerMenu:MakePopup()
 
@@ -223,9 +223,9 @@ function FPrinters:CreatePrinterMenu(printer)
     local upgradePurchase = vgui.Create("DButton", upgrade)
     upgradePurchase:Dock(RIGHT)
     upgradePurchase:SetTall(48)
-    upgradePurchase:SetWide(96)
+    upgradePurchase:SetWide(120)
     local upgradeMoney = (printer:GetSpeedUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
-    upgradePurchase:SetFont("FPrinters_Printer_18_Bold")
+    upgradePurchase:SetFont("FPrinters_Printer_14_Bold")
 
     function upgradePurchase:Paint(w, h)
         local upgradeMoney = (printer:GetSpeedUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
@@ -302,10 +302,10 @@ function FPrinters:CreatePrinterMenu(printer)
     local upgradePurchase = vgui.Create("DButton", upgrade)
     upgradePurchase:Dock(RIGHT)
     upgradePurchase:SetTall(48)
-    upgradePurchase:SetWide(96)
+    upgradePurchase:SetWide(120)
     local upgradeMoney = (printer:GetCapacityUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
     upgradePurchase:SetText(string.format(FPrinters.Phrases.Get("upgrade"), upgradeMoney))
-    upgradePurchase:SetFont("FPrinters_Printer_18_Bold")
+    upgradePurchase:SetFont("FPrinters_Printer_14_Bold")
 
     function upgradePurchase:Paint(w, h)
         local upgradeMoney = (printer:GetCapacityUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
@@ -382,10 +382,10 @@ function FPrinters:CreatePrinterMenu(printer)
     local upgradePurchase = vgui.Create("DButton", upgrade)
     upgradePurchase:Dock(RIGHT)
     upgradePurchase:SetTall(48)
-    upgradePurchase:SetWide(96)
+    upgradePurchase:SetWide(120)
     local upgradeMoney = (printer:GetCoolerUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
     upgradePurchase:SetText(string.format(FPrinters.Phrases.Get("upgrade"), upgradeMoney))
-    upgradePurchase:SetFont("FPrinters_Printer_18_Bold")
+    upgradePurchase:SetFont("FPrinters_Printer_14_Bold")
 
     function upgradePurchase:Paint(w, h)
         local upgradeMoney = (printer:GetCoolerUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
@@ -464,10 +464,10 @@ function FPrinters:CreatePrinterMenu(printer)
     local upgradePurchase = vgui.Create("DButton", upgrade)
     upgradePurchase:Dock(RIGHT)
     upgradePurchase:SetTall(48)
-    upgradePurchase:SetWide(96)
+    upgradePurchase:SetWide(120)
     local upgradeMoney = (printer:GetHealthUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
     upgradePurchase:SetText(string.format(FPrinters.Phrases.Get("upgrade"), upgradeMoney))
-    upgradePurchase:SetFont("FPrinters_Printer_18_Bold")
+    upgradePurchase:SetFont("FPrinters_Printer_14_Bold")
 
     function upgradePurchase:Paint(w, h)
         local upgradeMoney = (printer:GetHealthUpgrade() + 1) * FPrinters.Config.Upgrades.CostMultiplier * FPrinters.Config.Upgrades.Cost
